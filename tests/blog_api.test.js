@@ -29,7 +29,7 @@ beforeEach(async () => {
   const savedBlogs = await helper.blogsInDb()
   const blogIds = savedBlogs.map(savedBlog => savedBlog.id)
   await User.findByIdAndUpdate(rootUser.id, { blogs: blogIds }, { new: true })
-})
+}, 30000)
 
 describe('when there is initially some blogs saved', () => {
   test('all blogs are returned as json', async () => {
