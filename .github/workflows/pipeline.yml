@@ -11,6 +11,9 @@ on:
 jobs:
     deployment_pipeline:
         runs-on: ubuntu-22.04
+        env:
+            TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+            PORT: ${{ secrets.PORT }}
         steps:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
@@ -22,11 +25,6 @@ jobs:
               run: npm run eslint
             - name: build
               run: npm run build
-            - name: dotenv
-              id: dotenv
-              uses: ./.github/actions/dotenv-action
-            - name: display env var
-              run: echo "${{ steps.dotenv.outputs.TEST_MONGODB_URI }}"
             # - name: Create env file
             #   run: |
             #       touch .env
@@ -34,7 +32,7 @@ jobs:
             #       echo PORT=${{ secrets.PORT }} >> .env
             #       cat .env
             - name: test (jest)
-              run: npm run test:jest
+              run: TEST_MONGODB_URI=$TEST_MONGODB_URI PORT=$PORT npm run test:jest
             - name: e2e tests
               uses: cypress-io/github-action@v5
               with:
