@@ -3,40 +3,40 @@ const usersRouter = require('express').Router()
 const User = require('../models/user')
 
 usersRouter.post('/', async (request, response) => {
-	const { username, name, password } = request.body
+  const { username, name, password } = request.body
 
-	if (!username){
-		return response.status(400).json({ error: 'username must be given' })
-	}
-	if (!password){
-		return response.status(400).json({ error: 'password must be given' })
-	}
+  if (!username){
+    return response.status(400).json({ error: 'username must be given' })
+  }
+  if (!password){
+    return response.status(400).json({ error: 'password must be given' })
+  }
 
-	if (username.length < 3){
-		return response.status(400).json({ error: 'username must be atleast 3 chars long' })
-	}
+  if (username.length < 3){
+    return response.status(400).json({ error: 'username must be atleast 3 chars long' })
+  }
 
-	if (password.length < 3){
-		return response.status(400).json({ error: 'password must be atleast 3 chars long' })
-	}
+  if (password.length < 3){
+    return response.status(400).json({ error: 'password must be atleast 3 chars long' })
+  }
 
-	const saltRounds = 10
-	const passwordHash = await bcrypt.hash(password, saltRounds)
+  const saltRounds = 10
+  const passwordHash = await bcrypt.hash(password, saltRounds)
 
-	const user = new User({
-		username,
-		name,
-		passwordHash,
-	})
+  const user = new User({
+    username,
+    name,
+    passwordHash,
+  })
 
-	const savedUser = await user.save()
+  const savedUser = await user.save()
 
-	response.status(201).json(savedUser)
+  response.status(201).json(savedUser)
 })
 
 usersRouter.get('/', async (request, response) => {
-	const users = await User.find({}).populate('blogs', { title: 1, author: 1, url: 1 })
-	response.json(users)
+  const users = await User.find({}).populate('blogs', { title: 1, author: 1, url: 1 })
+  response.json(users)
 })
 
 module.exports = usersRouter

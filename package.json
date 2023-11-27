@@ -1,18 +1,23 @@
 {
-	"name": "bloglist",
+	"name": "full-stack-bloglist",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "NODE_ENV=production node index.js",
-		"test": "NODE_ENV=test jest --verbose --runInBand",
-		"dev": "NODE_ENV=development nodemon index.js",
-		"lint": "eslint .",
-		"start:test": "NODE_ENV=test node index.js"
+		"client-dev": "vite",
+		"start-dev": "NODE_ENV=development nodemon index.js",
+		"start-prod": "NODE_ENV=production node index.js",
+		"start:test": "NODE_ENV=test node index.js",
+		"test:jest": "NODE_ENV=test jest --verbose --runInBand",
+		"build": "rm -rf dist && vite build",
+		"eslint": "eslint .",
+		"test:e2e": "cypress run",
+		"cypress:open": "cypress open"
 	},
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
+		"axios": "^1.4.0",
 		"bcrypt": "^5.1.1",
 		"cors": "^2.8.5",
 		"cross-env": "^7.0.3",
@@ -21,15 +26,31 @@
 		"express-async-errors": "^3.1.1",
 		"jsonwebtoken": "^9.0.2",
 		"mongoose": "^7.6.2",
-		"mongoose-unique-validator": "^4.0.0"
+		"mongoose-unique-validator": "^4.0.0",
+		"prop-types": "^15.8.1",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
 	},
 	"devDependencies": {
-		"eslint": "^8.51.0",
+		"@babel/preset-env": "^7.23.2",
+		"@babel/preset-react": "^7.22.15",
+		"@testing-library/jest-dom": "^6.1.4",
+		"@testing-library/react": "^14.0.0",
+		"@testing-library/user-event": "^14.5.1",
+		"@types/react": "^18.2.15",
+		"@types/react-dom": "^18.2.7",
+		"@vitejs/plugin-react": "^4.0.3",
+		"cypress": "^13.6.0",
+		"eslint": "^8.45.0",
+		"eslint-plugin-cypress": "^2.15.1",
+		"eslint-plugin-jest": "^27.4.2",
+		"eslint-plugin-react": "^7.32.2",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-react-refresh": "^0.4.3",
 		"jest": "^29.7.0",
+		"jest-environment-jsdom": "^29.7.0",
 		"nodemon": "^3.0.1",
-		"supertest": "^6.3.3"
-	},
-	"jest": {
-		"testEnvironment": "node"
+		"supertest": "^6.3.3",
+		"vite": "^4.4.5"
 	}
 }

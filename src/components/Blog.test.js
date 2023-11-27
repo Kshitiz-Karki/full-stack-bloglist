@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+// https://jestjs.io/docs/configuration#testenvironment-string (explanation for above)
 import React from 'react'
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
