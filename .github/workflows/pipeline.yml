@@ -14,6 +14,7 @@ jobs:
         env:
             TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
             PORT: ${{ secrets.PORT }}
+            SECRET: ${{ secrets.SECRET }}
         steps:
             - uses: actions/checkout@v3
             - uses: actions/setup-node@v3
@@ -32,7 +33,7 @@ jobs:
             #       echo PORT=${{ secrets.PORT }} >> .env
             #       cat .env
             - name: test (jest)
-              run: TEST_MONGODB_URI=$TEST_MONGODB_URI PORT=$PORT npm run test:jest
+              run: TEST_MONGODB_URI=$TEST_MONGODB_URI PORT=$PORT SECRET=$SECRET npm run test:jest
             - name: e2e tests
               uses: cypress-io/github-action@v5
               with:
