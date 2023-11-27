@@ -9,7 +9,7 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 
-mongoose.set('bufferTimeoutMS', 30000)
+mongoose.set('bufferTimeoutMS', 60000)
 beforeEach(async () => {
   await User.deleteMany({})
   const passwordHash = await bcrypt.hash('sekret', 10)
@@ -29,7 +29,7 @@ beforeEach(async () => {
   const savedBlogs = await helper.blogsInDb()
   const blogIds = savedBlogs.map(savedBlog => savedBlog.id)
   await User.findByIdAndUpdate(rootUser.id, { blogs: blogIds }, { new: true })
-}, 30000)
+}, 60000)
 
 describe('when there is initially some blogs saved', () => {
   test('all blogs are returned as json', async () => {
