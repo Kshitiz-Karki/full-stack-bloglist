@@ -25,6 +25,7 @@ jobs:
             - name: dotenv
               id: dotenv
               uses: ./.github/actions/dotenv-action
+            - name: display env var
               run: echo "${{ steps.dotenv.outputs.TEST_MONGODB_URI }}"
             # - name: Create env file
             #   run: |
