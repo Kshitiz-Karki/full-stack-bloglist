@@ -26,19 +26,13 @@ jobs:
               run: npm run eslint
             - name: build
               run: npm run build
-            # - name: Create env file
-            #   run: |
-            #       touch .env
-            #       echo TEST_MONGODB_URI=${{ secrets.TEST_MONGODB_URI }} >> .env
-            #       echo PORT=${{ secrets.PORT }} >> .env
-            #       cat .env
             - name: test (jest)
               run: TEST_MONGODB_URI=$TEST_MONGODB_URI PORT=$PORT SECRET=$SECRET npm run test:jest
             - name: e2e tests
               uses: cypress-io/github-action@v5
               with:
                   command: npm run test:e2e
-                  start: npm run start-prod
+                  start: ./build_step.sh
                   wait-on: http://localhost:3003
             - name: commit messages
               env:
