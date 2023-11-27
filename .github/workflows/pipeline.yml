@@ -32,14 +32,14 @@ jobs:
             - name: create env file
               run: |
                   touch .env
-                  echo MONGODB_URI=${{ secrets.MONGODB_URI }} >> .env
+                  echo TEST_MONGODB_URI=${{ secrets.TEST_MONGODB_URI }} >> .env
                   echo PORT=${{ secrets.PORT }} >> .env
                   cat .env
             - name: e2e tests
               uses: cypress-io/github-action@v5
               with:
                   command: npm run test:e2e
-                  start: npm run client-dev, npm run start-prod
+                  start: npm run client-dev, npm run start-test
                   wait-on: http://localhost:3003
             - name: commit messages
               env:
