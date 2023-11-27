@@ -25,8 +25,8 @@ jobs:
             - name: 'Create env file'
               run: |
                 touch .env
-                echo API_ENDPOINT="https://xxx.execute-api.us-west-2.amazonaws.com" >> .env
-                echo API_KEY=${{ secrets.API_KEY }} >> .env
+                echo TEST_MONGODB_URI=${{ secrets.TEST_MONGODB_URI }} >> .env
+                echo PORT=${{ secrets.PORT }} >> .env
                 cat .env
               - name: test (jest)
                 run: npm run test:jest
