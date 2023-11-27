@@ -29,6 +29,12 @@ jobs:
               run: npm run build
             # - name: test (jest)
             #   run: TEST_MONGODB_URI=$TEST_MONGODB_URI PORT=$PORT SECRET=$SECRET npm run test:jest
+            - name: create env file
+              run: |
+                  touch .env
+                  echo MONGODB_URI="$MONGODB_URI" >> .env
+                  echo PORT="$PORT" >> .env
+                  cat .env
             - name: e2e tests
               uses: cypress-io/github-action@v5
               with:
