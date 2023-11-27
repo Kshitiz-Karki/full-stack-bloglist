@@ -6,7 +6,7 @@
 	"scripts": {
 		"client-dev": "vite",
 		"start-dev": "NODE_ENV=development nodemon index.js",
-		"start-prod": "NODE_ENV=production node index.js",
+		"start-prod": "NODE_ENV=production MONGODB_URI=$MONGODB_URI PORT=$PORT node index.js",
 		"start-test": "NODE_ENV=test node index.js",
 		"test:jest": "NODE_ENV=test jest --verbose --runInBand",
 		"build": "rm -rf dist && vite build",

@@ -31,12 +31,9 @@ jobs:
               run: TEST_MONGODB_URI=$TEST_MONGODB_URI PORT=$PORT SECRET=$SECRET npm run test:jest
             - name: e2e tests
               uses: cypress-io/github-action@v5
-              env:
-                  CYPRESS_MONGODB_URI: $MONGODB_URI
-                  CYPRESS_PORT: $PORT
               with:
                   command: npm run test:e2e
-                  start: npm run client-dev, MONGODB_URI=CYPRESS_MONGODB_URI PORT=CYPRESS_PORT npm run start-prod
+                  start: npm run client-dev, npm run start-prod
                   wait-on: http://localhost:3003
             - name: commit messages
               env:
