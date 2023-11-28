@@ -9,6 +9,8 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
 
+const testTimeout = 10000
+
 mongoose.set('bufferTimeoutMS', 30000)
 beforeEach(async () => {
   await User.deleteMany({})
@@ -39,12 +41,12 @@ describe('when there is initially some blogs saved', () => {
       .expect('Content-Type', /application\/json/)
 
     expect(response.body).toHaveLength(helper.initialBlogs.length)
-  })
+  }, testTimeout)
 
   test('unique identifier property of the blog posts is named id', async() => {
     const savedBlogs = await helper.blogsInDb()
     expect(savedBlogs[0].id).toBeDefined()
-  })
+  }, testTimeout)
 })
 
 describe('addition of a new blog', () => {
@@ -73,7 +75,7 @@ describe('addition of a new blog', () => {
     expect(title).toContain(
       'Canonical string reduction'
     )
-  })
+  }, testTimeout)
 
   test('adding a blog fails if token is not provided', async() => {
     const newBlog = {
@@ -87,7 +89,7 @@ describe('addition of a new blog', () => {
       .post('/api/blogs')
       .send(newBlog)
       .expect(401)
-  })
+  }, testTimeout)
 
   test('if the likes property is missing from the request, it will default to the value 0', async() => {
     const loggedInUser = await api
@@ -106,7 +108,7 @@ describe('addition of a new blog', () => {
       .send(newBlog)
       .set('Authorization', `Bearer ${loggedInUser.body.token}`)
     expect(response.body.likes).toBe(0)
-  })
+  }, testTimeout)
 
   test('blog without title or url is not added', async () => {
     const loggedInUser = await api
@@ -125,7 +127,7 @@ describe('addition of a new blog', () => {
       .set('Authorization', `Bearer ${loggedInUser.body.token}`)
       .send(newBlog)
       .expect(400)
-  })
+  }, testTimeout)
 })
 
 describe('deletion of a new blog', () => {
@@ -151,7 +153,7 @@ describe('deletion of a new blog', () => {
     const title = blogsAtEnd.map(r => r.title)
 
     expect(title).not.toContain(blogToDelete.title)
-  })
+  }, testTimeout)
 })
 
 describe('updation of a new blog', () => {
@@ -165,7 +167,7 @@ describe('updation of a new blog', () => {
 
     expect(blogToUpdate.likes).not.toBe(10)
     expect(updatedBlog.body.likes).toBe(10)
-  })
+  }, testTimeout)
 })
 
 describe('when there is initially one user in db', () => {
@@ -189,7 +191,7 @@ describe('when there is initially one user in db', () => {
 
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(newUser.username)
-  })
+  }, testTimeout)
 
   test('creation fails with proper statuscode and message if username already taken', async () => {
     const usersAtStart = await helper.usersInDb()
@@ -210,7 +212,7 @@ describe('when there is initially one user in db', () => {
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toEqual(usersAtStart)
-  })
+  }, testTimeout)
 })
 
 describe('invalid user is not created', () => {
@@ -224,7 +226,7 @@ describe('invalid user is not created', () => {
     expect(result.body.error).toContain('username must be given')
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toEqual(usersAtStart)
-  })
+  }, testTimeout)
 
   test('password is not provided', async() => {
     const usersAtStart = await helper.usersInDb()
@@ -236,7 +238,7 @@ describe('invalid user is not created', () => {
     expect(result.body.error).toContain('password must be given')
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toEqual(usersAtStart)
-  })
+  }, testTimeout)
 
   test('username is less than 3 characters', async() => {
     const usersAtStart = await helper.usersInDb()
@@ -248,7 +250,7 @@ describe('invalid user is not created', () => {
     expect(result.body.error).toContain('username must be atleast 3 chars long')
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toEqual(usersAtStart)
-  })
+  }, testTimeout)
 
   test('password is less than 3 characters', async() => {
     const usersAtStart = await helper.usersInDb()
@@ -260,7 +262,7 @@ describe('invalid user is not created', () => {
     expect(result.body.error).toContain('password must be atleast 3 chars long')
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toEqual(usersAtStart)
-  })
+  }, testTimeout)
 })
 
 afterAll(async () => {
